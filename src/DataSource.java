@@ -10,23 +10,21 @@ public class DataSource {
 	private String db = "jdbc:mysql://apontejaj.com:3306/customer";
 	private String un = "cctstudent";
 	private String pw = "Pass1234!";
+	
 	private Connection conn;
 	private Statement stmt;
+	private ResultSet rs = null;
 	
 	public DataSource() {
 		
 		try{
 			
 			// Get a connection to the database
-			Connection conn = DriverManager.getConnection( db, un, pw ) ;
+			conn = DriverManager.getConnection( db, un, pw ) ;
 
 			// Get a statement from the connection
-			Statement stmt = conn.createStatement() ;
-
-			// Close the result set, statement and the connection
-			rs.close() ;
-			stmt.close() ;
-			conn.close() ;
+			stmt = conn.createStatement() ;
+			
 		}
 		catch( SQLException se ){
 			System.out.println( "SQL Exception:" ) ;
@@ -45,27 +43,52 @@ public class DataSource {
 		}
 	}
 	
-	public void select(String query) {
+	public boolean save(String query) {
+		
+	
+		try {
+			stmt.execute(query);
+			return true;
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public ResultSet select(String query) {
 		
 		
-		// Execute the query
-		ResultSet rs = null;
+
 		
 		try {
 			rs = stmt.executeQuery(query);
-			// Loop through the result set
-			while( rs.next() )
-				System.out.println( rs.getString(1) + "\t" + rs.getString(2) + "\t" + rs.getString(3)) ;
-			
+		
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
+	return rs;
+}
 	
+	public void closing() {
+		
+		// Close the result set, statement and the connection
+		try {
+					rs.close() ;
+					stmt.close() ;
+					conn.close() ;
+						
+} 
+		
+		catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+		
+	}
 }
-}
-
-
-
 
