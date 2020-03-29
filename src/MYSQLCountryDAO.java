@@ -2,40 +2,32 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class MYSQLCountryDAO implements CountryDAO {
-
-	DataSource db = new DataSource();
+public class MYSQLCountryDAO implements CountryDAO  {
 	
 	@Override
-	public ArrayList<Country> getCountry() {
-		
-		ArrayList<Country> countries = new ArrayList<Country>();
-		
+	public ArrayList<Country> getCountry() {	
+		ArrayList<Country> countries = new ArrayList<Country>();	
+		try {	
+			
 		String query = "SELECT * from country;";
-		
+		DataSource db = DataSource.getInstance();
 		ResultSet rs = db.select(query);
 		int code =  0;
 		String name = "";
-		String continent = "";
+		Continent continent;
 		double surfaceArea = 0;
 		String headOfState = "";
-		Country c = null;
-		
-		try {
-			
+		Country c = null;				
 			while(rs.next()) {
 				code = rs.getInt(1);
 				name = rs.getString(2);
-				continent = rs.getString(3);
+				continent = Continent.Africa;
 				surfaceArea = rs.getDouble(4);
 				headOfState = rs.getString(5);
-			
-				c = new Country (code, name, continent, surfaceArea, headOfState);
-				countries.add(c);
-				
-				
-			}
-			
+				Country.BuilderCountry builder = new Country.BuilderCountry(code, name, continent, surfaceArea, headOfState);
+				c = builder.build();
+				countries.add(c);				
+			}			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -46,28 +38,26 @@ public class MYSQLCountryDAO implements CountryDAO {
 
 	@Override
 	public Country findCountryByCode(int code) {
-		
-	
-		
+
+		try {
 		String query = "SELECT * from country where code = " + code + ";";
-		ResultSet rs = db.select(query);
-		
+		DataSource db = DataSource.getInstance();
+		ResultSet rs = db.select(query);		
 		String name = "";
-		String continent = "";
+		Continent continent;
 		double surfaceArea = 0;
 		String headOfState = "";
 		Country c = null;
 		
-		try {
 			
-			if (rs.next()) {
-				
+			if (rs.next()) {				
 				name = rs.getString(2);
-				continent = rs.getString(3);
+				continent = Continent.Africa; //TODO: get value from string
 				surfaceArea = rs.getDouble(4);
 				headOfState = rs.getString(5);
 			
-				c = new Country (code, name, continent, surfaceArea, headOfState);
+				Country.BuilderCountry builder = new Country.BuilderCountry(code, name, continent, surfaceArea, headOfState);
+				c = builder.build();
 				return c;
 			}
 			
@@ -84,48 +74,48 @@ public class MYSQLCountryDAO implements CountryDAO {
 
 	@Override
 	public boolean saveCountry(Country country) {
-		
-		int code =  country.getCode();
-		String name = country.getName();
-		String continent = country.getContinent() ;
-		double surfaceArea = country.getSurfaceArea();
-		String headOfState = country.getHeadOfState();
-		
-		String query = "INSERT INTO country (code, name, continent, surfaceArea, headOfState); VALUES ('"+code+"', '"+name+"','"+continent+"'+'"+surfaceArea+"'+ '"+headOfState+"');";                     
-		
-		return db.save(query);
-		
+		try {
+			DataSource db = DataSource.getInstance();
+			int code = country.getCode();
+			String name = country.getName();
+			String continent = country.getContinent().toString();
+			double surfaceArea = country.getSurfaceArea();
+			String headOfState = country.getHeadOfState();
+
+			String query = "INSERT INTO country (code, name, continent, surfaceArea, headOfState); VALUES ('" + code
+					+ "', '" + name + "','" + continent + "'+'" + surfaceArea + "'+ '" + headOfState + "');";
+
+			return db.save(query);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override
 	public Country findCountryByName(String name) {
-		
-		
-		String query = "SELECT * from country where name = " + name + ";";
+		try {
+		DataSource db = DataSource.getInstance();
+		String query = "SELECT * from country where name = '" + name.trim() + "';";
 		ResultSet rs = db.select(query);
-	
 		
 		int code = 0;
-		String continent = "";
+		Continent continent;
 		double surfaceArea = 0;
 		String headOfState = "";
 		Country c = null;
-		
-		try {
-			
 			if (rs.next()) {
-				
 				code = rs.getInt(1);
-				continent = rs.getString(3);
+				continent = Continent.Africa;
 				surfaceArea = rs.getDouble(4);
 				headOfState = rs.getString(5);
 			
-				c = new Country (code, name, continent, surfaceArea, headOfState);
+				Country.BuilderCountry builder = new Country.BuilderCountry(code, name, continent, surfaceArea, headOfState);
+				c = builder.build();
 				return c;
 			}
 			
 			return null;
-			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

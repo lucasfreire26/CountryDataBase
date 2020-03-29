@@ -7,15 +7,19 @@ import java.sql.Statement;
 
 public class DataSource {
 	
-	private String db = "jdbc:mysql://apontejaj.com:3306/customer";
-	private String un = "cctstudent";
-	private String pw = "Pass1234!";
+	Connection x = getConnection();
+	
+	 private static DataSource instance;
+	 private String db = "jdbc:mysql://apontejaj.com:3306/customer?useSSL=false";
+	 private String un = "cctstudent";
+	 private String pw = "Pass1234!";
+	
 	
 	private Connection conn;
 	private Statement stmt;
 	private ResultSet rs = null;
 	
-	public DataSource() {
+	private DataSource() {
 		
 		try{
 			
@@ -43,6 +47,11 @@ public class DataSource {
 		}
 	}
 	
+	private Connection getConnection() {
+		// TODO Auto-generated method stub
+		return conn;
+	}
+
 	public boolean save(String query) {
 		
 	
@@ -58,10 +67,6 @@ public class DataSource {
 	}
 	
 	public ResultSet select(String query) {
-		
-		
-
-		
 		try {
 			rs = stmt.executeQuery(query);
 		
@@ -69,7 +74,6 @@ public class DataSource {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	return rs;
 }
 	
@@ -90,5 +94,15 @@ public class DataSource {
 					
 		
 	}
+	
+	   public static DataSource getInstance() throws SQLException {
+	        if (instance == null) {
+	            instance = new DataSource();
+	        } else if (instance.getConnection().isClosed()) {
+	            instance = new DataSource();
+	        }
+
+	        return instance;
+	    }
 }
 
