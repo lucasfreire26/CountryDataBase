@@ -2,13 +2,13 @@
 public class Country {
 	
 
-	private int code;
+	private String code;
 	private String name;
 	private Continent continent;
-	private double surfaceArea;
+	private float surfaceArea;
 	private String headOfState;
 	
-	private Country(BuilderCountry builder) {
+	Country(BuilderCountry builder) {
 		this.code = builder.code;
 		this.name = builder.name;
 		this.surfaceArea = builder.surfaceArea;
@@ -18,10 +18,12 @@ public class Country {
 	
 	@Override
 	public String toString() {
-		return "Code: " + code + " Name: " + name + " Continent: " + continent + " Surface: " + surfaceArea + "Head of State: " + headOfState;
+		return "Code: " + code + " Name: " + name + " Continent: " 
+	+ continent + " Surface: " + surfaceArea + " Head of State: " 
+				+ headOfState;
 	}
 	
-	public int getCode() {
+	public String getCode() {
 		return code;
 	}
 
@@ -29,7 +31,7 @@ public class Country {
 		return name;
 	}
 
-	public Enum getContinent() {
+	public Continent getContinent() {
 		return continent;
 	
 	}
@@ -44,13 +46,13 @@ public class Country {
 	
 	public static class BuilderCountry{
 		
-	private int code;
+	private String code;
 	private String name;
 	private Continent continent;
-	private double surfaceArea;
+	private float surfaceArea;
 	private String headOfState;
 
-	public BuilderCountry(int code, String name, Continent continent, double surfaceArea2, String headOfState) {
+	public BuilderCountry(String code, String name, Continent continent, float surfaceArea2, String headOfState) {
 		this.code = code;
 		this.name = name;
 		this.continent = continent;

@@ -2,9 +2,11 @@
 public enum Continent {
 
 	Africa, 
-	Antartica, 
+	Antarctica, 
 	Asia, 
 	Europe, 
-	SouthAmerica
+	SouthAmerica,
+	NorthAmerica,
+	Oceania
 		
 }

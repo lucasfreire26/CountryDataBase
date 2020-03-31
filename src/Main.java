@@ -6,12 +6,10 @@ import java.util.List;
 
 public class Main {
 
-	
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 
-		DataSource.getInstance();
-
+		View v = new View();
 		System.out.println("Finished");
-}
+	}
 }
