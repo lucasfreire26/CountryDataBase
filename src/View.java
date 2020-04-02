@@ -4,14 +4,18 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 
+//this is my class for the user command line interface
 public class View {
 	
+	//creating an array to store the variables for my menu
 	String[] types = { "1", "2", "3", "4", "0" };
 	List<String> operations = Arrays.asList(types);
 	String operation = "";
 	
+	//this will read the input from the user
 	static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	
+	//my method view 
 	public View() {
 		while (operation.equals("")) {
 			try {
@@ -46,7 +50,7 @@ public class View {
 				// set operation to blank to avoid infinite loop
 				operation = "";
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				//catch block
 				e.printStackTrace();
 			}
 			System.out.println("END");
@@ -54,6 +58,7 @@ public class View {
 		}
 	}
 
+	//main menu method
 	private void printMainMenu() {
 		System.out.println("***** MAIN MENU *****");
 		System.out.println(". Please enter an option below:");
@@ -61,6 +66,7 @@ public class View {
 		System.out.println("2. Find a country by code.");
 		System.out.println("3. Save a new country to the list.");
 		System.out.println("4. Find country by name.");
+		System.out.println("0. Exit.");
 	}
 
 	private void saveCountry() throws IOException {		
@@ -75,6 +81,7 @@ public class View {
 		String name = reader.readLine();
 		
 		System.out.println("Continent: E = Europe\r\nA = Asia\r\nAF = Africa\r\nNA = North America\r\nAT = Antarctica\r\nSA = South America\r\nO = Oceania");
+		//this is where I store my variable that will contain the user input
 		String c = reader.readLine();
 		Continent continent;
 		if (c.equals("A"))
@@ -99,8 +106,10 @@ public class View {
 		System.out.println("Head of State: ");
 		String headOfState = reader.readLine();
 		
+		//here I call the builder which will provide me with a representation of my object
 		Country.BuilderCountry builder = new Country.BuilderCountry(code, name, continent, surfaceArea, headOfState);
 		Country country = builder.build();
+		//saving into the database
 		boolean saved = new CountryDAOMethods().saveCountry(country);
 		if (saved)
 			System.out.println("Operation Completed.");
@@ -108,12 +117,13 @@ public class View {
 			System.out.println("Operation Failed.");
 	}
 
+	//finding country by code
 	private void findCountryByCode() {		
 		System.out.println("**Find a country by its code.**");
 		System.out.println("**Enter country's code:**");		
 		try {
 			String code = reader.readLine();
-			//checking code entered			
+			//checking code entered and searching for it through my method
 			Country country = new CountryDAOMethods().findCountryByCode(code);
 			if (code == null) {
 				System.out.println("country not found.");
@@ -127,6 +137,7 @@ public class View {
 	}
 	
 
+	//finding country by name
 	private void findCountryByName() {	
 		System.out.println("**Find a country by its name.**");
 		System.out.println("**Enter country's name:**");		
@@ -146,6 +157,7 @@ public class View {
 		}
 	}
 
+	//this method will access and return all the countries in the db
 	private static void displayAllCountries() {
 		List<Country> countries = new CountryDAOMethods().getCountry();
 		if (countries != null) {
@@ -155,6 +167,7 @@ public class View {
 		}
 	}
 	
+	//exiting the main menu method
 	private static void exit() {		
 		System.out.println("**Thank you, bye!**");
 	}

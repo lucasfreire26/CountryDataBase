@@ -1,3 +1,4 @@
+//this is my enum class
 
 public enum Continent {
 
