@@ -3,7 +3,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-// I've created this class based
+// I've created this class based on the videos 
+// you posted on moodle.
+//this is a class that will serve as a bridge
+//between the client and the database
+//which means that the client doesn't have direct access to the db instance.
 public class MYSQLCountryDAO implements CountryDAO  {
 	
 	@Override
@@ -76,7 +80,10 @@ public class MYSQLCountryDAO implements CountryDAO  {
 
 	@Override
 	public boolean saveCountry(Country country) {
+		System.out.println("wrgtbt");
+		
 		try {
+			System.out.println("different");
 			DataSource db = DataSource.getInstance();
 			String code = country.getCode();
 			String name = country.getName();
@@ -84,9 +91,9 @@ public class MYSQLCountryDAO implements CountryDAO  {
 			double surfaceArea = country.getSurfaceArea();
 			String headOfState = country.getHeadOfState();
 
-			String query = "INSERT INTO country (code, name, continent, surfaceArea, headOfState); VALUES ('" + code
-					+ "', '" + name + "','" + continent + "'+'" + surfaceArea + "'+ '" + headOfState + "');";
-
+			String query = "INSERT INTO country (code, name, continent, surfaceArea, headOfState) VALUES ('"+code+"', '"+name+"', '"+continent+"', '"+surfaceArea+"', '"+headOfState+"');";
+			
+		
 			return db.save(query);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
