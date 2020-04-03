@@ -1,29 +1,33 @@
+//explanation on how I created this is in the README file
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-
-// I've created this class based on the videos 
-// you posted on moodle.
-//this is a class that will serve as a bridge
-//between the client and the database
-//which means that the client doesn't have direct access to the db instance.
+////explanation on how I created this is in the README file
 public class MYSQLCountryDAO implements CountryDAO  {
 	
+	//this will print a list of all countries in the database
 	@Override
 	public ArrayList<Country> getCountry() {	
 		ArrayList<Country> countries = new ArrayList<Country>();	
+		//database pieces of code demand a try catch in case a an error happens
 		try {	
 			
+		//query
 		String query = "SELECT * from country;";
+		//instance of the database
 		DataSource db = DataSource.getInstance();
 		ResultSet rs = db.select(query);
+		
+		//setting variables
 		String code =  "";
 		String name = "";
 		Continent continent;
 		float surfaceArea = 0;
 		String headOfState = "";
-		Country c = null;				
+		Country c = null;	
+		
 			while(rs.next()) {
 				code = rs.getString(1);
 				name = rs.getString(2);
@@ -39,9 +43,11 @@ public class MYSQLCountryDAO implements CountryDAO  {
 			e.printStackTrace();
 		}
 		
+		//countries in the database
 		return countries;
 	}
 
+	//this method will find a country in the database by code
 	@Override
 	public Country findCountryByCode(String code) {
 
@@ -58,7 +64,7 @@ public class MYSQLCountryDAO implements CountryDAO  {
 			
 			if (rs.next()) {				
 				name = rs.getString(2);
-				continent = Continent.Africa; //TODO: get value from string
+				continent = Continent.Africa;
 				surfaceArea = rs.getFloat(4);
 				headOfState = rs.getString(5);
 			
@@ -80,10 +86,10 @@ public class MYSQLCountryDAO implements CountryDAO  {
 
 	@Override
 	public boolean saveCountry(Country country) {
-		System.out.println("wrgtbt");
+		
 		
 		try {
-			System.out.println("different");
+			// setting my variables to store the new country into the database
 			DataSource db = DataSource.getInstance();
 			String code = country.getCode();
 			String name = country.getName();
@@ -91,6 +97,7 @@ public class MYSQLCountryDAO implements CountryDAO  {
 			double surfaceArea = country.getSurfaceArea();
 			String headOfState = country.getHeadOfState();
 
+			//query
 			String query = "INSERT INTO country (code, name, continent, surfaceArea, headOfState) VALUES ('"+code+"', '"+name+"', '"+continent+"', '"+surfaceArea+"', '"+headOfState+"');";
 			
 		
@@ -104,10 +111,13 @@ public class MYSQLCountryDAO implements CountryDAO  {
 	@Override
 	public Country findCountryByName(String name) {
 		try {
+			//this my db instance
 		DataSource db = DataSource.getInstance();
+		//query im gonna run
 		String query = "SELECT * from country where name = '" + name.trim() + "';";
 		ResultSet rs = db.select(query);
 		
+		//variables
 		String code = "";
 		Continent continent;
 		float surfaceArea = 0;
@@ -119,6 +129,7 @@ public class MYSQLCountryDAO implements CountryDAO  {
 				surfaceArea = rs.getFloat(4);
 				headOfState = rs.getString(5);
 			
+				//using the builder pattern buildercountry
 				Country.BuilderCountry builder = new Country.BuilderCountry(code, name, continent, surfaceArea, headOfState);
 				c = builder.build();
 				return c;

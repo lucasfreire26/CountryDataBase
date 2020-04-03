@@ -125,7 +125,7 @@ public class View {
 			String code = reader.readLine();
 			//checking code entered and searching for it through my method
 			Country country = new CountryDAOMethods().findCountryByCode(code);
-			if (code == null) {
+			if (code == null)  {
 				System.out.println("country not found.");
 			} else {
 				System.out.println("Country " + code + " is " + country.toString());
@@ -170,5 +170,6 @@ public class View {
 	//exiting the main menu method
 	private static void exit() {		
 		System.out.println("**Thank you, bye!**");
+		System.exit(0);
 	}
 }

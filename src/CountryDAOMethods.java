@@ -1,3 +1,5 @@
+//this class implements my interface CountryDAO and is in charge for the methods
+
 import java.util.ArrayList;
 
 public class CountryDAOMethods implements CountryDAO {

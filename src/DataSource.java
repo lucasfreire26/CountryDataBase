@@ -4,17 +4,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-//for this class I chose to use the Singleton pattern.
-// it creates an instance of the database.
-//the client won't have access to this low level connection to the database.
-//this improves program independency and persistency. 
-//as studied, this class will present a private connection to the db
-//that will be accessed through the MYSQLCountryDAO class.
-//I chose to develop this under the singleton pattern,
-//because it creates a global instance of the database that will be used for all cases,
-//unless the connection is finished
+//explanation on how I created this is in the README file
 // I also used this website to help me out: 
 // https://www.geeksforgeeks.org/singleton-class-java/
+
 public class DataSource {
 
 	//creating connection to the db

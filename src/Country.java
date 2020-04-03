@@ -1,14 +1,4 @@
-// this is the class country which I created following 
-// what we saw in class for the builder design pattern.
-// this is also called creational pattern because 
-// it is one of the best ways to create objects in modern programming.
-// this pattern creates a builder that is independent of other objetcs,
-// giving the program persistency in terms of error or crashing down,
-// because it accesses an object created by the builder, instead of accessing the 
-// constructor or the object directly.
-// for that we need an interface, that I have created following the DAO pattern.
-// in this project this interface is called countryDAO
-
+//explanation on how I created this is in the README file
 
 public class Country {
 	
